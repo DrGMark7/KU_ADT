@@ -7,7 +7,7 @@ int main()
 {
   int a,b,c;
   printf("Enter three integers: ");
-  scanf("%d %d %d", &a, &b, &c);
+  scanf("%d %d %d", &a, &b, &c);  //. Input 3 ค่า
   printf("The maximum value is %d\n", max_of_three(a,b,c));
 }
 
