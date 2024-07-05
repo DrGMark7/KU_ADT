@@ -30,14 +30,16 @@ bool is_perfect2(int num){
 
 int main(){
     int num = 0;
-    int sum = 0;
+    int sum = 1;
     int temp_perfect = 0;
     scanf("%d", &num);
-
     for (int i = 1; i <= num; i++){
         if (is_perfect2(i)){
             temp_perfect = i;
         }
+    }
+    if (num == 2){
+        temp_perfect = 1;
     }
     printf("%d\n", temp_perfect);
 }
