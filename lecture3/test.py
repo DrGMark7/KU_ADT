@@ -18,7 +18,6 @@ class initMap:
     def get_point(self, x, y):
         return self.Map[x][y]
 
-    
 class initPacman:
     def __init__(self, x, y):
         self.x = x

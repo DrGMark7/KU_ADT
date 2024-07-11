@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#define MAX_LENGTH 100001
+#define MAX_LENGTH 10001
 
 void find_similar_substrings(char *text, char *pattern, int max_diff) {
     int text_length = strlen(text);
@@ -22,7 +22,6 @@ void find_similar_substrings(char *text, char *pattern, int max_diff) {
                 }
             }
         }
-
         if (match) {
             result[result_index++] = '[';
             for (int j = 0; j < pattern_length; j++) {
@@ -33,19 +32,12 @@ void find_similar_substrings(char *text, char *pattern, int max_diff) {
                 }
             }
             result[result_index++] = ']';
-            i += pattern_length - 1;  
+            i += pattern_length - 1;
         } else {
             result[result_index++] = text[i];
         }
     }
-    printf("%d\n", pattern_length);
-
-    // เพิ่มตัวอักษรที่เหลือจากข้อความต้นฉบับ
-    for (int i = result_index - pattern_length + 1; i < text_length; i++) {
-        printf("%d\n", i);
-        result[result_index++] = text[i];
-    }
-
+    
     result[result_index] = '\0';
     printf("%s\n", result);
 }
