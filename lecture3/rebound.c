@@ -1,98 +1,90 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<math.h>
 
-typedef struct {
-    int x, y;
-} Point;
-
-typedef struct {
-    Point *data;
-    int size;
-    int capacity;
-} Set;
-
-void initSet(Set *set, int capacity) {
-    set->data = (Point *)malloc(sizeof(Point) * capacity);
-    set->size = 0;
-    set->capacity = capacity;
-}
-
-int containsSet(Set *set, int x, int y) {
-    for (int i = 0; i < set->size; i++) {
-        if (set->data[i].x == x && set->data[i].y == y) {
-            return 1;
-        }
+int boundCnt(int x, int y, int box, int cmd, int N, int M, int **table){
+    int nX,nY;
+    int dx,dy;
+    table[y][x] += 1;
+    if(cmd == 0){ //N
+        nX = x, nY = 0;
+        cmd = 4;
     }
-    return 0;
-}
-
-void insertSet(Set *set, int x, int y) {
-    if (containsSet(set, x, y)) return;
-    if (set->size == set->capacity) {
-        set->capacity *= 2;
-        set->data = (Point *)realloc(set->data, sizeof(Point) * set->capacity);
+    else if(cmd == 1){ //NE
+        dx = M-x;
+        if(dx < y) nX = x+dx, nY = y-dx;
+        else nX = x+y, nY = y-y;
+        
+        if(nY == 0) cmd = 3;
+        else cmd = 7;
     }
-    set->data[set->size].x = x;
-    set->data[set->size].y = y;
-    set->size++;
-}
-
-void freeSet(Set *set) {
-    free(set->data);
-}
-
-int countCellsPassed(int N, int M, int x, int y, int d) {
-    int directions[8][2] = {
-        {0, -1},   // N
-        {1, -1},   // NE
-        {1, 0},    // E
-        {1, 1},    // SE
-        {0, 1},    // S
-        {-1, 1},   // SW
-        {-1, 0},   // W
-        {-1, -1}   // NW
-    };
-    
-    Set visited;
-    initSet(&visited, 100);
-    insertSet(&visited, x, y);
-    
-    while (1) {
-        int dx = directions[d][0];
-        int dy = directions[d][1];
-        int nx = x + dx;
-        int ny = y + dy;
-        
-        if (nx < 0 || nx >= M) {
-            dx = -dx;
-            d = (d + 4) % 8;
-        }
-        
-        if (ny < 0 || ny >= N) {
-            dy = -dy;
-            d = (d + 4) % 8;
-        }
-        
-        x += dx;
-        y += dy;
-
-        if (containsSet(&visited, x, y)) {
-            break;
-        }
-        
-        insertSet(&visited, x, y);
+    else if(cmd == 2){ //E
+        nX = M, nY = y;
+        cmd = 6;
     }
+    else if(cmd == 3){ //SE
+        dx = M-x, dy = N-y; 
+        if(dx < dy) nX = x+dx, nY = y+dx;
+        else nX = x+dy, nY = y+dy;
+        if(nX == M) cmd = 5;
+        else cmd = 1;
+    }
+    else if(cmd == 4){ //S
+        nX = N, nY = y;
+        cmd = 1;
+    }
+    else if(cmd == 5){ //SW
+        dy = N-y;
+        if(x < dy) nX = x-x, nY = y+x;
+        else nX = x-dy, nY = y+dy;
+        if(nY == N) cmd = 7;
+        else cmd = 3;
+    }
+    else if(cmd == 6){//W
+        nX = 0, nY = y;
+        cmd = 2;
+    }
+    else {//NW
+        if(x < y) nX = x-x, nY = y-x;
+        else nX = x-y, nY = y-y;
+        if(nX == 0) cmd = 1;
+        else cmd = 5;
+    }
+    if(table[nY][nX] < 1){
+        box += abs(x-nX) < abs(y-nY)? abs(x-nX):abs(y-nY);
+    }
+    // printf("%d %d | %d %d | %d | %d\n", nY, nX, y, x, cmd, box);
+    if(table[nY][nX] == 2) return box;
     
-    int result = visited.size;
-    freeSet(&visited);
-    return result;
+    for(int i = 0 ; i < N ; i++){
+        for(int j = 0 ; j < M ; j++) printf("%d ", table[i][j]);
+        printf("\n");
+    }
+    printf("\n");
+    
+    return boundCnt(nX, nY, box, cmd, N, M, table);
 }
 
-int main() {
-    int N, M, x, y, d;
-    scanf("%d %d %d %d %d\n", &N, &M, &x, &y, &d);
+int main(){
     
-    int result = countCellsPassed(N, M, x, y, d);
-    printf("%d\n", result);
+    int N,M,x,y,direc,cnt=0;
+    int **table;
+    
+    scanf("%d %d %d %d %d", &N, &M, &y, &x, &direc);
+    table = (int **)malloc(sizeof(int *) * N);
+    for(int i = 0 ; i < N; i++){
+        table[i] = (int *)malloc(sizeof(int) * M);
+    }
+
+    for(int i = 0 ; i < N ; i++) for(int j = 0 ; j < M ; j++) table[i][j] = 0;
+    cnt = boundCnt(x, y, 0, direc, N-1, M-1, table);
+    for(int i = 0 ; i < N ; i++){
+        for(int j = 0 ; j < M ; j++) printf("%d ", table[i][j]);
+        printf("\n");
+    }
+    printf("%d", cnt);
+
+    for(int i = 0 ; i < M ; i++) free(table[i]);
+    free(table);
     return 0;
 }
