@@ -27,35 +27,45 @@ def calculate_angle(direction):
         return 90
     else:
         return 45
+    
+def check_wall(x, y, m, n):
+    if (x == 0 and y == 0) or (x == n-1 and y == 0) or (x == n-1 and y == m-1) or (x == 0 and y == m-1):
+        return True
+    elif (x == 0 or x == n-1) or (y == 0 or y == m-1):
+        return True
+    else:
+        return False
 
 def change_direction(d, x, y, m, n):
-    if (x == 0 and y == 0) or (x == n-1 and y == 0) or (x == n-1 and y == m-1) or (x == 0 and y == m-1):
-        d = (d + 4) % 8  #. Reverse direction
-        print("Corner")
 
+    if (x == 0 and y == 0) or (x == n-1 and y == 0) or (x == n-1 and y == m-1) or (x == 0 and y == m-1):
+        return (d + 4) % 8  #. Reverse direction
+        print("Corner")
     elif (x == 0 or x == n-1):
         print("Wall X")
         if calculate_angle(d) == 90:
-            d = (d + 4) % 8
+            return (d + 4) % 8
         elif calculate_angle(d) == 45:
             if d in [7, 3]:
-                d = d - 2
+                return d - 2
             elif d in [5, 1]:
-                d = d + 2
+                return d + 2
     elif (y == 0 or y == m-1):
         print("Wall Y")
         if calculate_angle(d) == 90:
             if calculate_angle(d) == 90:
-                d = (d + 4) % 8
+                return (d + 4) % 8
         elif calculate_angle(d) == 45:
             if d == 5:
-                d = 3
+                return 3
             elif d == 7:
-                d = 1
+                return 1
             elif d == 3:
-                d = 5
+                return 5
             elif d == 1:
-                d = 7
+                return 7
+    else:
+        return d
 
 
 direction_map = {
@@ -85,9 +95,11 @@ n, m, x, y, d = 6, 5, 0, 0, 3
 
 myMap  = Map(m, n)
 myBall = Ball(x, y)
-
 myMap.walked(myBall.x, myBall.y)
-print(myBall.y, myBall.x, f"{direction_print[d]}({d})")
+
+if check_wall(myBall.x, myBall.y, m, n) and direction_map[d] + (myBall.x, myBall.y) < (0,0):
+    d = change_direction(d, myBall.x, myBall.y, m, n)
+
 myMap.print_map()
 
 prev_sum_map = 0
@@ -97,40 +109,13 @@ import time
 while True:
     
     #. Change Direction
-        
-    if (myBall.x == 0 and myBall.y == 0) or (myBall.x == n-1 and myBall.y == 0) or (myBall.x == n-1 and myBall.y == m-1) or (myBall.x == 0 and myBall.y == m-1):
-        d = (d + 4) % 8  #. Reverse direction
-        print("Corner")
-
-    elif (myBall.x == 0 or myBall.x == n-1) and count_time != 0:
-        print("Wall X")
-        if calculate_angle(d) == 90:
-            d = (d + 4) % 8
-        elif calculate_angle(d) == 45:
-            if d in [7, 3]:
-                d = d - 2
-            elif d in [5, 1]:
-                d = d + 2
-    elif (myBall.y == 0 or myBall.y == m-1) and count_time != 0:
-        print("Wall Y")
-        if calculate_angle(d) == 90:
-            if calculate_angle(d) == 90:
-                d = (d + 4) % 8
-        elif calculate_angle(d) == 45:
-            if d == 5:
-                d = 3
-            elif d == 7:
-                d = 1
-            elif d == 3:
-                d = 5
-            elif d == 1:
-                d = 7
-
+    d = change_direction(d, myBall.x, myBall.y, m, n)
+   
     print(myBall.y, myBall.x, f"{direction_print[d]}({d})")
     myBall.move(*direction_map[d])
     myMap.walked(myBall.x, myBall.y)
     myMap.print_map()
-    
+
     time.sleep(0.5)
     count_time += 1
     sum_map = sum(sum(myMap.map[i]) for i in range(n))
@@ -139,6 +124,5 @@ while True:
         break
 
     prev_sum_map = sum_map
-
 
 print(f"Pacman changed direction {sum(sum(myMap.map[i]) for i in range(n))} times.")
