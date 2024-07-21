@@ -26,7 +26,7 @@ int min_snacks(int m, int prices[], int v) {
     // Time complexity: O(mv)
     return (dp[v] != INT_MAX) ? dp[v] : 0;
 }
-
+//+ Reference https://www.geeksforgeeks.org/find-minimum-number-of-coins-that-make-a-change/
 int main() {
     int m, v;
     int prices[MAX_M];
