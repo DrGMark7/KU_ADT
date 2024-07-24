@@ -15,24 +15,6 @@ typedef struct node{
     struct node *next;
 } node_t;
 
-void printList(node_t *startNode, int n_player){
-    node_t *current = startNode;
-    for(int t = 0; t < n_player; t++){
-        printf("%d ",  current->data.myNumber);
-        printf("%d\n", current->data.limitDrink);
-        current = current->next;
-    }
-}
-
-void printCurrentPlayer(node_t *currentPlayer){
-    printf("Current player: %d\n", currentPlayer->data.myNumber);
-    printf("Current player's limit drink: %d\n", currentPlayer->data.limitDrink);
-    printf("Current player's count: %d\n", currentPlayer->data.count);
-    printf("Current player's drink: %d\n", currentPlayer->data.Drink);
-    printf("Current player's isOut: %s\n", currentPlayer->data.isOut ? "true" : "false");
-    printf("--------------------\n");
-}
-
 int main() {
     int n_player, k;
     scanf("%d %d", &n_player, &k);
@@ -63,9 +45,6 @@ int main() {
         current = newNode;
     }
     current->next = startNode;   //. Assign the start node to the next node of the last node
-    printList(startNode, n_player);
-    printf("********** Game **********\n");
-
     //. ********** Game **********/
 
     node_t *currentPlayer = startNode;
@@ -79,13 +58,11 @@ int main() {
         }
         
         if(currentPlayer->data.count % k == 0 && currentPlayer->data.isOut == false){   //. If the count of the current player is equal to k
-            currentPlayer->data.Drink++;       //. Increase the drink of the current player
+            currentPlayer->data.Drink++;                    //. Increase the drink of the current player
         }
 
         if(currentPlayer->data.Drink == currentPlayer->data.limitDrink && currentPlayer->data.isOut == false){   //. If the drink of the current player is equal to the limit drink
-            printf("Player %d is out\n", currentPlayer->data.myNumber);    //. Display the player is out
             currentPlayer->data.isOut = true;                              //. Assign the player is out
-            // printCurrentPlayer(currentPlayer);                              //. Display After Next Player
             ns_player--;                                                   //. Decrease the number of players
         }
         
@@ -94,17 +71,10 @@ int main() {
         }
         currentPlayer = currentPlayer->next;    //. Move to the next player
     }
-    
-    printf("Counter: %d\n", counter);
-    printf("End of the game\n");
-    for (int i = 0; i < n_player; i++){
-        printCurrentPlayer(currentPlayer);     //. Display Before Next Player
-        currentPlayer = currentPlayer->next;
-    }
 
     for(int i = 0; i < n_player; i++){
         if(currentPlayer->data.isOut == false){
-            printf("The winner is player %d\n", currentPlayer->data.myNumber);
+            printf("%d\n", currentPlayer->data.myNumber);
             break;
         }
         currentPlayer = currentPlayer->next;
@@ -112,5 +82,3 @@ int main() {
     return 0;    
 }
 
-//. Case 5 -> 27
-//. Case 6 -> 182
