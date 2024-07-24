@@ -83,15 +83,15 @@ node_t *cut(node_t *startNode){
     }
     
     current->next = NULL;              //. Assign NULL to the next node of the current node
-    
+
     return startCut;                 //. Return the start cut node
 }
 
 int main(void) {
-    node_t *startNode;         //. Declare a pointer to the start node
+    node_t *startNode;              //. Declare a pointer to the start node
     int n,i;                   
     char command;         
-    startNode = NULL;          //. Initialize the start node to NULL
+    startNode = NULL;               //. Initialize the start node to NULL
     scanf("%d", &n);           
     for (i=0; i<n; i++) {
         scanf(" %c", &command);
