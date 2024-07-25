@@ -1,2 +1,1 @@
-Hello, World. Here is an <example message for> testing the "brokenText.c" program. I found it
-works <well.> Good Job!!!
+Hello, World. Here is an <example message for> testing the "brokenText.c" program. I found it works <well.> Good Job!!!

@@ -1,73 +1,40 @@
 #include <stdio.h>
-#include <stdlib.h>
-#define MAXSIZE 100000
+#include <string.h>
 
-typedef struct char_t{
-    char c;
-    struct inputChar *next;
-} char_t;
+#define MAX_LEN 100000
 
-void printString(char_t *startNode){
-    char_t *current = startNode;
-    while (current != NULL){
-        printf("%c", current->c);
-        current = current->next;
-    }
-}
+int main() {
+    char input[MAX_LEN];
+    char output[MAX_LEN];
+    int cursorPos = 0; // to keep track of the cursor position
+    int len = 0;      // to keep track of the actual length of the output string
 
-void moveAfterNodetoFront(char_t *startNode){
-    char_t *current = startNode;
-    char_t *prev = NULL;
-    while (current->next != NULL)
-    {
-        prev = current;
-        current = current->next;
-    }
-    prev->next = NULL;
-    current->next = startNode;
-    startNode = current;
-}
+    // Read input
+    fgets(input, MAX_LEN, stdin);
 
-void moveAfterNodetoEnd(char_t *startNode){
-    char_t *current = startNode;
-    char_t *prev = NULL;
-    while (current->next != NULL)
-    {
-        prev = current;
-        current = current->next;
-    }
-    prev->next = NULL;
-    current->next = NULL;
-    current->next = startNode;
-}
-
-void getSizeof(char_t *startNode){
-    char_t *current = startNode;
-    int size = 0;
-    while (current != NULL){
-        size++;
-        current = current->next;
-    }
-    printf("Size of the linked list: %d\n", size);
-    printf("Size of the linked list: %d Byte \n", size*sizeof(startNode));
-}   
-
-int main(){
-    // input String to the linked list
-    char_t *startNode = (char_t *)malloc(sizeof(char_t));
-    char_t *current = startNode;
-    char_t *newNode;
-
-    char c;
-    while (1){
-        scanf("%c", &c);
-        if (c == '\n'){
-            break;
+    // Initialize output buffer
+    memset(output, '\0', sizeof(output));
+    
+    // Process each character in the input
+    for (int i = 0; input[i] != '\0'; i++) {
+        if (input[i] == '<') {
+            cursorPos = 0; // Move cursor to the beginning
+        } else if (input[i] == '>') {
+            cursorPos = len; // Move cursor to the end
+        } else {
+            // Shift characters to the right to make room for the new character
+            for (int j = len; j > cursorPos; j--) {
+                output[j] = output[j-1];
+            }
+            // Insert the new character at the current cursor position
+            output[cursorPos] = input[i];
+            cursorPos++;
+            len++;
         }
-        newNode = (char_t *)malloc(sizeof(char_t));
-        newNode->c = c;
-        newNode->next = NULL;
-        current->next = newNode;
-        current = newNode;
     }
+
+    // Output the result
+    printf("%s\n", output);
+
+    return 0;
 }

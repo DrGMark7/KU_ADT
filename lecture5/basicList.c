@@ -84,7 +84,7 @@ node_t *cut(node_t *startNode){
     
     current->next = NULL;              //. Assign NULL to the next node of the current node
 
-    return startCut;                 //. Return the start cut node
+    return startCut;                   //. Return the start cut node
 }
 
 int main(void) {
