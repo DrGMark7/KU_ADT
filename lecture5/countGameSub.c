@@ -15,6 +15,19 @@ typedef struct node{
     struct node *next;
 } node_t;
 
+bool check_number(int countNumber ,int k){
+    if (countNumber % k == 0){
+        return true;
+    }
+    while (countNumber > 0){
+        if(countNumber % 10 == k){
+            return true;
+        }
+        countNumber = countNumber / 10;
+    }
+    return false;
+}
+
 int main() {
     int n_player, k;
     scanf("%d %d", &n_player, &k);
@@ -56,12 +69,12 @@ int main() {
             counter++;
             currentPlayer->data.count = counter;           //. Increase the count of the current player
         }
-        
-        if(currentPlayer->data.count % k == 0 && currentPlayer->data.isOut == false){   //. If the count of the current player is equal to k
+
+        if(check_number(currentPlayer->data.count, k) && currentPlayer->data.isOut == false){   //. If the count of the current player is equal to k
             currentPlayer->data.Drink++;                    //. Increase the drink of the current player
         }
 
-        if(currentPlayer->data.Drink == currentPlayer->data.limitDrink && currentPlayer->data.isOut == false){   //. If the drink of the current player is equal to the limit drink
+        if(currentPlayer->data.Drink == currentPlayer->data.limitDrink + 1 && currentPlayer->data.isOut == false){   //. If the drink of the current player is equal to the limit drink
             currentPlayer->data.isOut = true;                              //. Assign the player is out
             ns_player--;                                                   //. Decrease the number of players
         }
@@ -79,6 +92,7 @@ int main() {
         }
         currentPlayer = currentPlayer->next;
     }
-    return 0;    
-}
+    return 0;  
 
+
+}

@@ -15,6 +15,19 @@ typedef struct node{
     struct node *next;
 } node_t;
 
+int check_number(int countNumber ,int k){
+    if (countNumber % k == 0){
+        return 1;
+    }
+    while (countNumber > 0){
+        if(countNumber % 10 == k){
+            return 1;
+        }
+        countNumber = countNumber / 10;
+    }
+    return 0;
+}
+
 void printList(node_t *startNode, int n_player){
     node_t *current = startNode;
     for(int t = 0; t < n_player; t++){
@@ -78,11 +91,15 @@ int main() {
             currentPlayer->data.count = counter;           //. Increase the count of the current player
         }
         
-        if(currentPlayer->data.count % k == 0 && currentPlayer->data.isOut == false){   //. If the count of the current player is equal to k
+        // if(currentPlayer->data.count % k == 0 && currentPlayer->data.isOut == false){   //. If the count of the current player is equal to k
+        //     currentPlayer->data.Drink++;       //. Increase the drink of the current player
+        // }
+
+        if (check_number(currentPlayer->data.count, k) && currentPlayer->data.isOut == false){   //. If the count of the current player is equal to k
             currentPlayer->data.Drink++;       //. Increase the drink of the current player
         }
 
-        if(currentPlayer->data.Drink == currentPlayer->data.limitDrink && currentPlayer->data.isOut == false){   //. If the drink of the current player is equal to the limit drink
+        if(currentPlayer->data.Drink == currentPlayer->data.limitDrink + 1 && currentPlayer->data.isOut == false){   //. If the drink of the current player is equal to the limit drink
             printf("Player %d is out\n", currentPlayer->data.myNumber);    //. Display the player is out
             currentPlayer->data.isOut = true;                              //. Assign the player is out
             // printCurrentPlayer(currentPlayer);                              //. Display After Next Player
