@@ -9,6 +9,9 @@ typedef struct node {
 typedef node_t stack_ts;
 // Write your code here
 
+//. Note that Macbook (Darwin) Can't Define the stack as stack_t *stack_t
+//. So, I defined stack_ts as node_t
+
 stack_ts *push(stack_ts *s, int value) {
     stack_ts *newNode = (stack_ts *)malloc(sizeof(stack_ts));
     newNode->data = value;
