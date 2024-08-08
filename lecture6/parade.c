@@ -87,7 +87,6 @@ int main() {
         scanf("%d", &data);
         enqueue(&queue, data);
     }
-
     float start = clock();
 
     int counter = 1;
@@ -112,7 +111,7 @@ int main() {
         int data = pop(&stack);
         enqueue(&sorted, data);
     }
-
+    
     printf("%d\n", check_sorted(sorted));
 
     float end = clock();
