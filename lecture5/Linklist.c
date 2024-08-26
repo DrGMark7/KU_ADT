@@ -39,13 +39,13 @@ void delete_node(Node **head, int data) {
 
 void delete_node_p(Node **head, Node *p){
     Node *prev = NULL;
-    Node *curr = *head;             // Assign the head to curr (is local variable)
-    while (curr != NULL) {          // Loop through the list
-        if (curr == p) {            // If the current node is the node to be deleted
-            if (prev == NULL) {     // If the previous node is NULL, then the head is the node to be deleted 
-                *head = curr->next; // Assign the next node to the head
+    Node *curr = *head;             //. Assign the head to curr (is local variable)
+    while (curr != NULL) {          //. Loop through the list
+        if (curr == p) {            //. If the current node is the node to be deleted
+            if (prev == NULL) {     //. If the previous node is NULL, then the head is the node to be deleted 
+                *head = curr->next; //. Assign the next node to the head
             } else {                       
-                prev->next = curr->next; // Assign the next node of the current node to the next node of the previous node
+                prev->next = curr->next; //. Assign the next node of the current node to the next node of the previous node
             }
             free(curr);
             return;
