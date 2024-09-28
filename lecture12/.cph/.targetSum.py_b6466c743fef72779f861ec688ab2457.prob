@@ -1,0 +1,1 @@
+{"name":"Local: targetSum","url":"/Users/drgmark7/Desktop/Code/KU_ADT/lecture12/targetSum.py","tests":[{"id":1727326070847,"input":"5 0\n-1\n0\n2\n-3\n1","output":"-3 1 2\n-1 0 1"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/drgmark7/Desktop/Code/KU_ADT/lecture12/targetSum.py","group":"local","local":true}
